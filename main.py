@@ -6,14 +6,14 @@ if os.popen("whoami").read().strip('\n')!="root":
      exit()
 #default values
 HOMEDIR="/home/"+os.popen("who am i | awk '{print $1}'").read().strip('\n')
-OUTDIR=HOMEDIR
-editdir=input("pls input the directory of this new folder (default: current user's home dir, if you want root dir, pls type /root ): ")
-FROM=input("pls input the value that you like to change from: ")
+OUTDIR=input("pls input the directory of this new folder (default: current user's home dir, if you want root dir, pls type /root ): ").replace("~",HOMEDIR)
+FROM=input("pls input the value that you like to change from (default: wireguard.domain.com:51820): ")
 TO=input("pls input the value that you want change to: ")
 
-if editdir!="":
-     editdir=editdir.replace("~",HOMEDIR)
-     OUTDIR=editdir
+if OUTDIR=="":
+     OUTDIR=HOMEDIR
+if FROM=="":
+     FROM="wireguard.domain.com:51820"
 
 folderdir=OUTDIR+"/wireguardpeers"
 os.system('mkdir '+folderdir)
