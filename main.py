@@ -1,6 +1,6 @@
 #get peers from docker wireguard and change data to fit my port tunneling need
-import os
 
+import os
 if os.popen("whoami").read().strip('\n')!="root":
      print("pls use sudo")
      exit()
@@ -38,10 +38,12 @@ while limit:
 #1~real size
 for i in range(1,size):
      #print(i)
-     peerconfdir=peerdir+str(i)+"/peer"+str(i)+".conf"
+     peerconfname="peer"+str(i)+".conf"
+     peerconfdir=peerdir+str(i)+"/"+peerconfname
      peerconf=os.popen('cat '+peerconfdir).read().strip('\n')
      #print (peerconf)
      peerconf=peerconf.replace(FROM,TO)
-     os.system('echo "'+peerconf+'" > '+folderdir+'/peer'+str(i)+'.conf')
+     newpeerconfdir=folderdir+'/'+peerconfname
+     os.system('echo "'+peerconf+'" > '+newpeerconfdir)
+     os.system('qrencode -t ansiutf8 < '+newpeerconfdir+' -o '+folderdir+'/peer'+str(i)+'.txt')
 os.system("rm -r "+configdir)
-     
